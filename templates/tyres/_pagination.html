@@ -1,0 +1,110 @@
+{% if page_obj.has_other_pages %}
+<nav aria-label="Пагинация каталога" class="mt-4">
+    <ul class="pagination justify-content-center custom-pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" 
+                   hx-get="?page={{ page_obj.previous_page_number }}{{ query_string }}" 
+                   hx-target="#tyres-list" 
+                   hx-push-url="true" 
+                   hx-indicator="#loading-indicator"
+                   href="?page={{ page_obj.previous_page_number }}{{ query_string }}" 
+                   aria-label="Предыдущая">
+                    <span class="d-flex align-items-center justify-content-center" style="height:20px;width:20px;">
+                        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 15L8 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">
+                    <span class="d-flex align-items-center justify-content-center" style="height:20px;width:20px;">
+                        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 15L8 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </span>
+            </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" 
+                       hx-get="?page={{ num }}{{ query_string }}" 
+                       hx-target="#tyres-list" 
+                       hx-push-url="true"
+                       hx-indicator="#loading-indicator"
+                       href="?page={{ num }}{{ query_string }}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" 
+                   hx-get="?page={{ page_obj.next_page_number }}{{ query_string }}" 
+                   hx-target="#tyres-list" 
+                   hx-push-url="true"
+                   hx-indicator="#loading-indicator"
+                   href="?page={{ page_obj.next_page_number }}{{ query_string }}" 
+                   aria-label="Следующая">
+                    <span class="d-flex align-items-center justify-content-center" style="height:20px;width:20px;">
+                        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 5L12 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">
+                    <span class="d-flex align-items-center justify-content-center" style="height:20px;width:20px;">
+                        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 5L12 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+<style>
+.custom-pagination {
+    --bs-pagination-color: var(--bs-light);
+    --bs-pagination-bg: var(--bs-dark);
+    --bs-pagination-border-color: var(--bs-secondary);
+    --bs-pagination-hover-color: var(--bs-light);
+    --bs-pagination-hover-bg: var(--bs-primary);
+    --bs-pagination-hover-border-color: var(--bs-primary);
+    --bs-pagination-active-color: var(--bs-light);
+    --bs-pagination-active-bg: var(--bs-primary);
+    --bs-pagination-active-border-color: var(--bs-primary);
+    --bs-pagination-disabled-color: var(--bs-secondary);
+    --bs-pagination-disabled-bg: var(--bs-dark);
+    --bs-pagination-disabled-border-color: var(--bs-secondary);
+}
+
+.custom-pagination .page-link {
+    padding: 0.25rem 0.6rem;
+    min-width: 32px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.page-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+
+.page-item.active .page-link {
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+
+.page-item.disabled .page-link {
+    opacity: 0.5;
+}
+</style>
+{% endif %} 

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}FAQ: Как выбрать шины?{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>FAQ: Как выбрать шины?</h2>
+    <hr>
+    <div class="accordion" id="faqAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading1">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                    Как выбрать размер шин?
+                </button>
+            </h2>
+            <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Размер шин указывается в формате <b>205/55 R16</b>, где:<br>
+                    <ul>
+                        <li><b>205</b> — ширина шины в мм</li>
+                        <li><b>55</b> — профиль (высота боковины в % от ширины)</li>
+                        <li><b>R16</b> — радиус диска в дюймах</li>
+                    </ul>
+                    Рекомендуем использовать размеры, указанные в документации к вашему автомобилю.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                    Какой сезон выбрать: летние, зимние или всесезонные?
+                </button>
+            </h2>
+            <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <ul>
+                        <li><b>Летние</b> — для температур выше +7°C, обеспечивают хорошее сцепление на сухой и мокрой дороге.</li>
+                        <li><b>Зимние</b> — для температур ниже +7°C, бывают шипованные (для льда и снега) и нешипованные (липучки).</li>
+                        <li><b>Всесезонные</b> — компромисс для мягких зим, но уступают специализированным шинам.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading3">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                    Что такое индекс скорости и нагрузки?
+                </button>
+            </h2>
+            <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <b>Индекс скорости</b> (например, T, H, V) — максимальная допустимая скорость для шины.<br>
+                    <b>Индекс нагрузки</b> — максимальная нагрузка на одну шину.<br>
+                    Оба параметра указаны на боковине шины и в документации к авто.
+                    <hr>
+                    <b>Таблица индексов скорости:</b>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm align-middle text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Индекс</th>
+                                    <th>Макс. скорость (км/ч)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Q</td><td>160</td></tr>
+                                <tr><td>R</td><td>170</td></tr>
+                                <tr><td>S</td><td>180</td></tr>
+                                <tr><td>T</td><td>190</td></tr>
+                                <tr><td>H</td><td>210</td></tr>
+                                <tr><td>V</td><td>240</td></tr>
+                                <tr><td>W</td><td>270</td></tr>
+                                <tr><td>Y</td><td>300</td></tr>
+                                <tr><td>ZR</td><td>&gt;240</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading4">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                    Как понять, нужны ли шипованные шины?
+                </button>
+            </h2>
+            <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <ul>
+                        <li><b>Шипованные</b> — для регионов с частым льдом и снегом.</li>
+                        <li><b>Нешипованные</b> — для города и чистых дорог.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Фиксируем минимальную высоту аккордеона, чтобы футер не прыгал */
+#faqAccordion {
+    min-height: 600px;
+    transition: min-height 0.3s;
+}
+</style>
+{% endblock %} 

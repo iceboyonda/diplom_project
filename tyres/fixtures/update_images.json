@@ -1,0 +1,62 @@
+[
+  {
+    "model": "tyres.tyremodel",
+    "pk": 1,
+    "fields": {
+      "name": "X-Ice North 4",
+      "brand": "Michelin",
+      "description": "Зимняя шина с отличным сцеплением на льду.",
+      "image": "Michelin X-Ice North 4.png"
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 2,
+    "fields": {
+      "name": "IceContact 3",
+      "brand": "Continental",
+      "description": "Современная зимняя шина для суровых условий.",
+      "image": "Continental IceContact 3.png"
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 3,
+    "fields": {
+      "name": "Blizzak VRX3",
+      "brand": "Bridgestone",
+      "description": "Японская зимняя шина для города и трассы.",
+      "image": "Bridgestone Blizzak VRX3.png"
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 4,
+    "fields": {
+      "name": "Hakkapeliitta 10",
+      "brand": "Nokian",
+      "description": "Финская шина для суровой зимы.",
+      "image": "Nokian Hakkapeliitta 10.png"
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 5,
+    "fields": {
+      "name": "UltraGrip Ice 2",
+      "brand": "Goodyear",
+      "description": "Зимняя нешипованная шина для легковых авто.",
+      "image": "Goodyear UltraGrip Ice 2.png"
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 6,
+    "fields": {
+      "name": "Gislaved Nord Frost 200",
+      "brand": "Gislaved",
+      "description": "Надежная зимняя шина для России.",
+      "image": "gislaved_nord_frost_200.png"
+    }
+  }
+] 

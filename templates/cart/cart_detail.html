@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Корзина - Tyre Trust{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Корзина</h1>
+
+{% if cart|length > 0 %}
+    <div id="cart-table">
+        {% include "cart/_cart_table.html" %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p class="mb-0">Ваша корзина пуста. <a href="{% url 'tyres:catalogue' %}">Перейти в каталог</a></p>
+    </div>
+{% endif %}
+{% endblock %} 

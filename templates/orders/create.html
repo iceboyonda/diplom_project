@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Оформление заказа - Tyre Trust{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="mb-4">Оформление заказа</h1>
+        
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Данные для доставки</h5>
+                    {{ form|crispy }}
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg mt-4">
+                Подтвердить заказ
+            </button>
+        </form>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Ваш заказ</h5>
+            </div>
+            <div class="card-body">
+                {% for item in cart %}
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="mb-0">{{ item.tyre.brand }} {{ item.tyre.name }}</h6>
+                            <small class="text-muted">{{ item.quantity }} × {{ item.price }} ₽</small>
+                        </div>
+                        <span>{{ item.total_price }} ₽</span>
+                    </div>
+                {% endfor %}
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <h5>Итого:</h5>
+                    <h5>{{ cart.get_total_price }} ₽</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

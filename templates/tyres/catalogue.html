@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}Каталог шин - Tyre Trust{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col text-end">
+        <a href="{% url 'tyres:faq' %}" class="btn btn-outline-info">FAQ: Как выбрать шины?</a>
+    </div>
+</div>
+<div class="row">
+    <!-- Фильтры -->
+    <div class="col-md-3">
+        <div class="card mb-4 border-0 shadow-sm filter-block">
+            <div class="card-header bg-transparent border-0">
+                <h5 class="mb-0">Фильтры</h5>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'tyres:filter_tyres' %}" method="get" 
+                      hx-get="{% url 'tyres:filter_tyres' %}" 
+                      hx-target="#tyres-list" 
+                      hx-trigger="change"
+                      hx-indicator="#loading-indicator">
+                    <!-- Бренд -->
+                    <div class="mb-3">
+                        <label class="form-label">Бренд</label>
+                        <select name="brand" class="form-select border-secondary">
+                            <option value="">Все бренды</option>
+                            {% for brand in brands %}
+                                <option value="{{ brand }}">{{ brand }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Ширина -->
+                    <div class="mb-3">
+                        <label class="form-label">Ширина</label>
+                        <select name="width" class="form-select border-secondary">
+                            <option value="">Любая</option>
+                            {% for width in widths %}
+                                <option value="{{ width }}">{{ width }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Профиль -->
+                    <div class="mb-3">
+                        <label class="form-label">Профиль</label>
+                        <select name="profile" class="form-select border-secondary">
+                            <option value="">Любой</option>
+                            {% for profile in profiles %}
+                                <option value="{{ profile }}">{{ profile }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Радиус -->
+                    <div class="mb-3">
+                        <label class="form-label">Радиус</label>
+                        <select name="radius" class="form-select border-secondary">
+                            <option value="">Любой</option>
+                            {% for radius in radiuses %}
+                                <option value="{{ radius }}">R{{ radius }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Сезон -->
+                    <div class="mb-3">
+                        <label class="form-label">Сезон</label>
+                        <select name="season" class="form-select border-secondary">
+                            <option value="">Любой</option>
+                            {% for key, value in seasons.items %}
+                                <option value="{{ key }}">{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Шипы -->
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" name="studded" class="form-check-input" id="studded">
+                            <label class="form-check-label" for="studded">Шипованные</label>
+                        </div>
+                    </div>
+
+                    <!-- Цена -->
+                    <div class="mb-3">
+                        <label class="form-label">Цена</label>
+                        <div class="input-group mb-2">
+                            <input type="number" name="min_price" class="form-control border-secondary" placeholder="От">
+                            <input type="number" name="max_price" class="form-control border-secondary" placeholder="До">
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary w-100">Применить</button>
+                        <a href="{% url 'tyres:catalogue' %}" 
+                           class="btn btn-secondary w-100" 
+                           hx-get="{% url 'tyres:catalogue' %}" 
+                           hx-target="#tyres-list" 
+                           hx-push-url="true"
+                           hx-indicator="#loading-indicator">Сбросить</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Список шин -->
+    <div class="col-md-9">
+        <h1 class="catalogue-title">Каталог шин</h1>
+        <!-- Индикатор загрузки -->
+        <div id="loading-indicator" class="htmx-indicator text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Загрузка...</span>
+            </div>
+        </div>
+        <div id="tyres-list" class="fade-transition" style="margin-top: 0;">
+            {% include "tyres/_tyres_list.html" %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .fade-transition {
+        transition: opacity 0.3s ease-in-out;
+    }
+    .htmx-request .fade-transition {
+        opacity: 0.5;
+    }
+    .form-select:focus, .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-2px);
+    }
+    .catalogue-title {
+        margin-bottom: 0.5rem;
+    }
+</style>
+{% endblock %} 

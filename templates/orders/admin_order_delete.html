@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Удалить заказ{% endblock %}
+{% block content %}
+<div class="container py-5" style="max-width: 500px;">
+    <div class="card p-4 shadow bg-dark text-light text-center">
+        <h2 class="mb-4 text-danger">Удалить заказ?</h2>
+        <p class="mb-3">Вы действительно хотите удалить заказ <b>№{{ order.id }}</b> пользователя <b>{{ order.user.username }}</b>?</p>
+        <form method="post" class="d-flex justify-content-between mt-4">
+            {% csrf_token %}
+            <a href="{% url 'orders:admin_orders' %}" class="btn btn-outline-secondary">Отмена</a>
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+    </div>
+</div>
+{% endblock %} 

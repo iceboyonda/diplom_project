@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Заказ №{{ order.id }} - Tyre Trust{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="mb-4">Заказ №{{ order.id }}</h1>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Информация о заказе</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Дата заказа:</strong> {{ order.created|date:"d.m.Y H:i" }}</p>
+                        <p><strong>Статус:</strong> 
+                            <span class="badge {% if order.status == 'new' %}bg-primary
+                                             {% elif order.status == 'processing' %}bg-info
+                                             {% elif order.status == 'shipped' %}bg-warning
+                                             {% elif order.status == 'delivered' %}bg-success
+                                             {% else %}bg-danger{% endif %}">
+                                {{ order.get_status_display }}
+                            </span>
+                        </p>
+                        <p><strong>Сумма заказа:</strong> {{ order.get_total_cost }} ₽</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Имя:</strong> {{ order.first_name }} {{ order.last_name }}</p>
+                        <p><strong>Email:</strong> {{ order.email }}</p>
+                        <p><strong>Телефон:</strong> {{ order.phone }}</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Адрес доставки:</h6>
+                        <p>{{ order.address }}<br>
+                           {{ order.city }}, {{ order.postal_code }}</p>
+                        {% if order.note %}
+                            <h6>Примечание к заказу:</h6>
+                            <p>{{ order.note }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Товары в заказе</h5>
+            </div>
+            <div class="card-body">
+                {% for item in order.items.all %}
+                    <div class="d-flex align-items-center mb-3">
+                        {% if item.tyre.image %}
+                            <div class="flex-shrink-0">
+                                <img src="{{ item.tyre.image.url }}" alt="{{ item.tyre.name }}" style="width: 100px;">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">{{ item.tyre.brand }} {{ item.tyre.name }}</h6>
+                                <p class="mb-0 text-muted">
+                                    {{ item.tyre.width }}/{{ item.tyre.profile }} R{{ item.tyre.radius }}
+                                    ({{ item.tyre.get_season_display }})
+                                </p>
+                                <p class="mb-0">
+                                    {{ item.quantity }} × {{ item.price }} ₽ = {{ item.get_cost }} ₽
+                                </p>
+                            </div>
+                        {% else %}
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">{{ item.tyre.brand }} {{ item.tyre.name }}</h6>
+                                <p class="mb-0 text-muted">
+                                    {{ item.tyre.width }}/{{ item.tyre.profile }} R{{ item.tyre.radius }}
+                                    ({{ item.tyre.get_season_display }})
+                                </p>
+                                <p class="mb-0">
+                                    {{ item.quantity }} × {{ item.price }} ₽ = {{ item.get_cost }} ₽
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if not forloop.last %}<hr>{% endif %}
+                {% endfor %}
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                    <h5>Итого:</h5>
+                    <h5>{{ order.get_total_cost }} ₽</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Действия</h5>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'orders:list' %}" class="btn btn-outline-primary w-100 mb-2">
+                    Вернуться к списку заказов
+                </a>
+                <a href="{% url 'tyres:catalogue' %}" class="btn btn-primary w-100">
+                    Перейти в каталог
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

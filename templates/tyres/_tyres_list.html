@@ -1,0 +1,106 @@
+<div class="row row-cols-1 row-cols-md-3 g-4">
+{% for tyre in tyres %}
+  <div class="col">
+    <div class="card h-100 border-0 shadow-sm tyre-card">
+      {% if tyre.image %}
+        <div class="card-img-wrapper">
+          <img src="{{ tyre.image.url }}" class="card-img-top" alt="{{ tyre.name }}">
+        </div>
+      {% else %}
+        <div class="card-img-wrapper">
+          <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Placeholder">
+        </div>
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title text-center mb-3">
+          {{ tyre.brand }} {{ tyre.name }}
+        </h5>
+        <div class="tyre-details">
+          <p class="card-text text-center mb-2">
+            <span class="badge bg-primary">{{ tyre.season_display }}</span>
+          </p>
+          <p class="card-text text-center mb-2">
+            <small class="text-muted">Доступные радиусы: {{ tyre.radius_range }}</small>
+          </p>
+          <p class="card-text text-center mb-3">
+            {% if tyre.min_price %}
+              <strong class="price-tag">ОТ {{ tyre.min_price|floatformat:0 }} ₽</strong>
+            {% else %}
+              <strong class="text-muted">Нет цены</strong>
+            {% endif %}
+          </p>
+          <div class="d-flex justify-content-center">
+            <a href="{% url 'tyres:tyre_detail' tyre.id %}" class="btn btn-primary w-100">Подробнее</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% empty %}
+  <div class="col-12">
+    <div class="alert alert-info shadow-sm">
+      <i class="fas fa-info-circle me-2"></i>
+      Шины не найдены. Попробуйте изменить параметры фильтрации.
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+<style>
+.tyre-card {
+    transition: all 0.3s ease;
+    background: var(--card-bg) !important;
+    color: var(--text-color) !important;
+}
+
+.tyre-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3) !important;
+}
+
+.card-img-wrapper {
+    position: relative;
+    padding-top: 75%;
+    overflow: hidden;
+    background: var(--card-bg) !important;
+}
+
+.card-img-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.tyre-card:hover .card-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.tyre-details {
+    padding: 1rem;
+}
+
+.price-tag {
+    font-size: 1.25rem;
+    color: var(--bs-primary);
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+</style>
+
+{% include "tyres/_pagination.html" with page_obj=page_obj query_string=query_string %} 

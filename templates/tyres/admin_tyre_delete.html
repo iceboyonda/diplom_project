@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Удалить шину{% endblock %}
+{% block content %}
+<div class="container py-5" style="max-width: 500px;">
+    <div class="card p-4 shadow bg-dark text-light text-center">
+        <h2 class="mb-4 text-danger">Удалить шину?</h2>
+        <p class="mb-3">Вы действительно хотите удалить шину <b>{{ tyre.brand }} {{ tyre.name }}</b>?</p>
+        {% if tyre.image %}
+            <img src="{{ tyre.image.url }}" alt="Фото шины" style="max-width: 140px; max-height: 140px; border-radius: 8px; box-shadow: 0 2px 8px #0002;" class="mb-3">
+        {% endif %}
+        <form method="post" class="d-flex justify-content-between mt-4">
+            {% csrf_token %}
+            <a href="{% url 'tyres:admin_tyres' %}" class="btn btn-outline-secondary">Отмена</a>
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+    </div>
+</div>
+{% endblock %} 

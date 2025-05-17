@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Админ — Товары{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Товары (шины)</h2>
+        <a href="{% url 'tyres:admin_tyre_add' %}" class="btn btn-success">+ Добавить шину</a>
+    </div>
+    <div class="card shadow bg-dark text-light">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Бренд</th>
+                            <th>Название</th>
+                            <th>Радиусы</th>
+                            <th>Мин. цена</th>
+                            <th>Сезон</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tyre in tyres %}
+                        <tr>
+                            <td>{{ tyre.id }}</td>
+                            <td>{{ tyre.brand }}</td>
+                            <td>{{ tyre.name }}</td>
+                            <td>{{ tyre.radius_range }}</td>
+                            <td>{% if tyre.min_price %}{{ tyre.min_price|floatformat:0 }} ₽{% else %}—{% endif %}</td>
+                            <td>{{ tyre.season_display }}</td>
+                            <td>
+                                <a href="{% url 'tyres:admin_tyre_edit' tyre.id %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                                <a href="{% url 'tyres:admin_tyre_delete' tyre.id %}" class="btn btn-sm btn-outline-danger ms-1">Удалить</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center text-secondary">Нет шин</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.table-dark {
+    --bs-table-bg: #23262F;
+    --bs-table-striped-bg: #202225;
+    --bs-table-hover-bg: #2a2e35;
+    color: #fff;
+}
+.btn-outline-primary, .btn-outline-danger {
+    border-width: 2px;
+}
+</style>
+{% endblock %} 

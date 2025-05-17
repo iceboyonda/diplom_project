@@ -1,0 +1,162 @@
+[
+  {
+    "model": "tyres.tyremodel",
+    "pk": 1,
+    "fields": {
+      "name": "X-Ice North 4",
+      "brand": "Michelin",
+      "description": "Зимняя шина с отличным сцеплением на льду.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 2,
+    "fields": {
+      "name": "IceContact 3",
+      "brand": "Continental",
+      "description": "Современная зимняя шина для суровых условий.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 3,
+    "fields": {
+      "name": "Blizzak VRX3",
+      "brand": "Bridgestone",
+      "description": "Японская зимняя шина для города и трассы.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 4,
+    "fields": {
+      "name": "Hakkapeliitta 10",
+      "brand": "Nokian",
+      "description": "Финская шина для суровой зимы.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 5,
+    "fields": {
+      "name": "UltraGrip Ice 2",
+      "brand": "Goodyear",
+      "description": "Зимняя нешипованная шина для легковых авто.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 6,
+    "fields": {
+      "name": "Gislaved Nord Frost 200",
+      "brand": "Gislaved",
+      "description": "Надежная зимняя шина для России.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 7,
+    "fields": {
+      "name": "Pilot Sport 4",
+      "brand": "Michelin",
+      "description": "Летняя шина для динамичной езды.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 8,
+    "fields": {
+      "name": "Turanza T005",
+      "brand": "Bridgestone",
+      "description": "Летняя шина для комфорта и безопасности.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 9,
+    "fields": {
+      "name": "EcoContact 6",
+      "brand": "Continental",
+      "description": "Экономичная летняя шина.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 10,
+    "fields": {
+      "name": "Energy Saver+",
+      "brand": "Michelin",
+      "description": "Летняя шина для экономии топлива.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 11,
+    "fields": {
+      "name": "EfficientGrip Performance",
+      "brand": "Goodyear",
+      "description": "Летняя шина для мокрой дороги.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 12,
+    "fields": {
+      "name": "Nordman SX2",
+      "brand": "Nokian",
+      "description": "Бюджетная летняя шина.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 13,
+    "fields": {
+      "name": "Vector 4Seasons Gen-3",
+      "brand": "Goodyear",
+      "description": "Всесезонная шина для любых условий.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 14,
+    "fields": {
+      "name": "CrossClimate+",
+      "brand": "Michelin",
+      "description": "Всесезонная шина для Европы и России.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 15,
+    "fields": {
+      "name": "AllSeasonContact",
+      "brand": "Continental",
+      "description": "Всесезонная шина для мягких зим.",
+      "image": ""
+    }
+  },
+  {
+    "model": "tyres.tyremodel",
+    "pk": 16,
+    "fields": {
+      "name": "Proxes R888R",
+      "brand": "Toyo",
+      "description": "Спортивная полуслик-шина для трека и быстрой езды.",
+      "image": ""
+    }
+  }
+] 

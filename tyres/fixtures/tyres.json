@@ -1,0 +1,382 @@
+[
+  {
+    "model": "tyres.tyre",
+    "pk": 1,
+    "fields": {
+      "name": "EcoContact 6",
+      "brand": "Continental",
+      "price": "5200.00",
+      "width": 205,
+      "profile": 55,
+      "radius": 16,
+      "season": "summer",
+      "studded": false,
+      "description": "Летняя шина Continental EcoContact 6 — оптимальный баланс между топливной экономичностью и сцеплением на мокрой дороге.",
+      "image": "tyres/eco_contact_6.jpg",
+      "stock": 10,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 2,
+    "fields": {
+      "name": "IceContact 3",
+      "brand": "Continental",
+      "price": "7800.00",
+      "width": 195,
+      "profile": 65,
+      "radius": 15,
+      "season": "winter",
+      "studded": true,
+      "description": "Зимняя шипованная шина Continental IceContact 3 — отличное сцепление на льду и снегу.",
+      "image": "tyres/ice_contact_3.jpg",
+      "stock": 7,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 3,
+    "fields": {
+      "name": "Energy Saver",
+      "brand": "Michelin",
+      "price": "6000.00",
+      "width": 185,
+      "profile": 65,
+      "radius": 15,
+      "season": "summer",
+      "studded": false,
+      "description": "Michelin Energy Saver — экономичная летняя шина с низким сопротивлением качению.",
+      "image": "tyres/energy_saver.jpg",
+      "stock": 15,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 4,
+    "fields": {
+      "name": "Pilot Alpin 5",
+      "brand": "Michelin",
+      "price": "9500.00",
+      "width": 225,
+      "profile": 45,
+      "radius": 17,
+      "season": "winter",
+      "studded": true,
+      "description": "Michelin Pilot Alpin 5 — премиальная зимняя шина для максимального контроля на снегу.",
+      "image": "tyres/pilot_alpin_5.jpg",
+      "stock": 8,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 5,
+    "fields": {
+      "name": "Blizzak VRX",
+      "brand": "Bridgestone",
+      "price": "8700.00",
+      "width": 215,
+      "profile": 60,
+      "radius": 16,
+      "season": "winter",
+      "studded": false,
+      "description": "Bridgestone Blizzak VRX — нешипованная зимняя шина для суровых условий.",
+      "image": "tyres/blizzak_vrx.jpg",
+      "stock": 12,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 6,
+    "fields": {
+      "name": "Turanza T005",
+      "brand": "Bridgestone",
+      "price": "6900.00",
+      "width": 195,
+      "profile": 55,
+      "radius": 16,
+      "season": "summer",
+      "studded": false,
+      "description": "Bridgestone Turanza T005 — летняя шина для комфорта и безопасности.",
+      "image": "tyres/turanza_t005.jpg",
+      "stock": 14,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 7,
+    "fields": {
+      "name": "UltraGrip Ice 2",
+      "brand": "Goodyear",
+      "price": "8200.00",
+      "width": 205,
+      "profile": 60,
+      "radius": 16,
+      "season": "winter",
+      "studded": true,
+      "description": "Goodyear UltraGrip Ice 2 — шипованная зимняя шина для уверенного движения по льду.",
+      "image": "tyres/ultragrip_ice_2.jpg",
+      "stock": 9,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 8,
+    "fields": {
+      "name": "EfficientGrip Performance",
+      "brand": "Goodyear",
+      "price": "6400.00",
+      "width": 195,
+      "profile": 65,
+      "radius": 15,
+      "season": "summer",
+      "studded": false,
+      "description": "Goodyear EfficientGrip Performance — летняя шина для экономии топлива.",
+      "image": "tyres/efficientgrip_performance.jpg",
+      "stock": 11,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 9,
+    "fields": {
+      "name": "Nordman 7",
+      "brand": "Nokian",
+      "price": "7100.00",
+      "width": 205,
+      "profile": 55,
+      "radius": 16,
+      "season": "winter",
+      "studded": true,
+      "description": "Nokian Nordman 7 — шипованная зимняя шина для северных дорог.",
+      "image": "tyres/nordman_7.jpg",
+      "stock": 10,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 10,
+    "fields": {
+      "name": "Hakka Green 3",
+      "brand": "Nokian",
+      "price": "6700.00",
+      "width": 185,
+      "profile": 65,
+      "radius": 15,
+      "season": "summer",
+      "studded": false,
+      "description": "Nokian Hakka Green 3 — летняя шина для экологичной езды.",
+      "image": "tyres/hakka_green_3.jpg",
+      "stock": 13,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 11,
+    "fields": {
+      "name": "Scorpion Verde",
+      "brand": "Pirelli",
+      "price": "9000.00",
+      "width": 235,
+      "profile": 55,
+      "radius": 19,
+      "season": "summer",
+      "studded": false,
+      "description": "Pirelli Scorpion Verde — летняя шина для кроссоверов и внедорожников.",
+      "image": "tyres/scorpion_verde.jpg",
+      "stock": 6,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 12,
+    "fields": {
+      "name": "Winter Sottozero 3",
+      "brand": "Pirelli",
+      "price": "9800.00",
+      "width": 225,
+      "profile": 50,
+      "radius": 17,
+      "season": "winter",
+      "studded": false,
+      "description": "Pirelli Winter Sottozero 3 — нешипованная зимняя шина для премиальных авто.",
+      "image": "tyres/winter_sottozero_3.jpg",
+      "stock": 5,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 13,
+    "fields": {
+      "name": "SP Sport Maxx",
+      "brand": "Dunlop",
+      "price": "7500.00",
+      "width": 215,
+      "profile": 55,
+      "radius": 17,
+      "season": "summer",
+      "studded": false,
+      "description": "Dunlop SP Sport Maxx — летняя шина для спортивных автомобилей.",
+      "image": "tyres/sp_sport_maxx.jpg",
+      "stock": 7,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 14,
+    "fields": {
+      "name": "Grandtrek Ice 03",
+      "brand": "Dunlop",
+      "price": "8300.00",
+      "width": 225,
+      "profile": 60,
+      "radius": 18,
+      "season": "winter",
+      "studded": true,
+      "description": "Dunlop Grandtrek Ice 03 — шипованная зимняя шина для внедорожников.",
+      "image": "tyres/grandtrek_ice_03.jpg",
+      "stock": 4,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 15,
+    "fields": {
+      "name": "Ventus Prime3",
+      "brand": "Hankook",
+      "price": "6200.00",
+      "width": 205,
+      "profile": 55,
+      "radius": 16,
+      "season": "summer",
+      "studded": false,
+      "description": "Hankook Ventus Prime3 — летняя шина для городских дорог.",
+      "image": "tyres/ventus_prime3.jpg",
+      "stock": 9,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 16,
+    "fields": {
+      "name": "Winter i*cept RS2",
+      "brand": "Hankook",
+      "price": "7700.00",
+      "width": 195,
+      "profile": 65,
+      "radius": 15,
+      "season": "winter",
+      "studded": false,
+      "description": "Hankook Winter i*cept RS2 — нешипованная зимняя шина для легковых авто.",
+      "image": "tyres/winter_icept_rs2.jpg",
+      "stock": 8,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 17,
+    "fields": {
+      "name": "AllSeasonContact",
+      "brand": "Continental",
+      "price": "8500.00",
+      "width": 215,
+      "profile": 60,
+      "radius": 16,
+      "season": "all_season",
+      "studded": false,
+      "description": "Continental AllSeasonContact — всесезонная шина для любых условий.",
+      "image": "tyres/allseasoncontact.jpg",
+      "stock": 10,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 18,
+    "fields": {
+      "name": "CrossClimate+",
+      "brand": "Michelin",
+      "price": "8800.00",
+      "width": 205,
+      "profile": 55,
+      "radius": 17,
+      "season": "all_season",
+      "studded": false,
+      "description": "Michelin CrossClimate+ — всесезонная шина для легковых авто.",
+      "image": "tyres/crossclimate_plus.jpg",
+      "stock": 11,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 19,
+    "fields": {
+      "name": "Kinergy 4S2",
+      "brand": "Hankook",
+      "price": "6900.00",
+      "width": 195,
+      "profile": 60,
+      "radius": 15,
+      "season": "all_season",
+      "studded": false,
+      "description": "Hankook Kinergy 4S2 — всесезонная шина для городских условий.",
+      "image": "tyres/kinergy_4s2.jpg",
+      "stock": 12,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  },
+  {
+    "model": "tyres.tyre",
+    "pk": 20,
+    "fields": {
+      "name": "Cinturato All Season Plus",
+      "brand": "Pirelli",
+      "price": "9300.00",
+      "width": 205,
+      "profile": 55,
+      "radius": 16,
+      "season": "all_season",
+      "studded": false,
+      "description": "Pirelli Cinturato All Season Plus — всесезонная шина для европейских дорог.",
+      "image": "tyres/cinturato_all_season_plus.jpg",
+      "stock": 7,
+      "created_at": "2024-05-04T20:00:00Z",
+      "updated_at": "2024-05-04T20:00:00Z"
+    }
+  }
+] 

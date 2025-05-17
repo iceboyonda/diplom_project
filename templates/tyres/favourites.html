@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Избранное - Tyre Trust{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Избранные варианты шин</h1>
+    {% if favourite_variants %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Модель</th>
+                <th>Размер</th>
+                <th>Сезон</th>
+                <th>Шипы</th>
+                <th>Индекс скорости</th>
+                <th>Цена</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for variant in favourite_variants %}
+            <tr>
+                <td>{{ variant.model.brand }} {{ variant.model.name }}</td>
+                <td>{{ variant.width }}/{{ variant.profile }} R{{ variant.radius }}</td>
+                <td>{{ variant.get_season_display }}</td>
+                <td>{% if variant.studded %}Да{% else %}Нет{% endif %}</td>
+                <td>{{ variant.speed_index }}</td>
+                <td>{{ variant.price }} ₽</td>
+                <td>
+                    <form action="{% url 'tyres:remove_favourite' variant.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Убрать</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info">У вас нет избранных вариантов.</div>
+    {% endif %}
+</div>
+{% endblock %} 

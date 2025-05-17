@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Пользователь {{ user_obj.username }}{% endblock %}
+{% block content %}
+<div class="container py-5" style="max-width: 500px;">
+    <div class="card shadow bg-dark text-light">
+        <div class="card-body">
+            <h2 class="mb-4">Пользователь: {{ user_obj.username }}</h2>
+            <div class="mb-2"><b>Email:</b> {{ user_obj.email }}</div>
+            <div class="mb-2"><b>Имя:</b> {{ user_obj.first_name }}</div>
+            <div class="mb-2"><b>Фамилия:</b> {{ user_obj.last_name }}</div>
+            <div class="mb-2"><b>is_staff:</b> {{ user_obj.is_staff }}</div>
+            <div class="mb-2"><b>is_superuser:</b> {{ user_obj.is_superuser }}</div>
+            <div class="mb-2"><b>is_active:</b> {{ user_obj.is_active }}</div>
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'accounts:admin_users' %}" class="btn btn-outline-secondary">Назад</a>
+                <a href="{% url 'accounts:admin_user_edit' user_obj.id %}" class="btn btn-primary">Редактировать</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

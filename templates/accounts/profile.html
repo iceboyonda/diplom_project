@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow p-4" style="max-width: 600px; margin: 0 auto;">
+        <h2 class="mb-4 text-center">Личный кабинет</h2>
+        <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Имя:</strong> {{ user.first_name }}</p>
+        <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+        <a href="{% url 'logout' %}" class="btn btn-danger mt-3 mb-4">Выйти</a>
+        <hr>
+        <h4 class="mb-3">История заказов</h4>
+        {% if orders %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th>Состав заказа</th>
+                            <th>Сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.created|date:"d.m.Y H:i" }}</td>
+                            <td>{{ order.get_status_display }}</td>
+                            <td>
+                                <ul class="mb-0">
+                                    {% for item in order.items.all %}
+                                        <li>{{ item.tyre.brand }} {{ item.tyre.name }} — {{ item.quantity }} шт. ({{ item.price }} ₽/шт)</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{ order.get_total_cost }} ₽</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>У вас пока нет заказов.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои заказы - Tyre Trust{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Мои заказы</h1>
+
+{% if orders %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>№ заказа</th>
+                    <th>Дата</th>
+                    <th>Статус</th>
+                    <th>Сумма</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.created|date:"d.m.Y H:i" }}</td>
+                        <td>
+                            <span class="badge {% if order.status == 'new' %}bg-primary
+                                             {% elif order.status == 'processing' %}bg-info
+                                             {% elif order.status == 'shipped' %}bg-warning
+                                             {% elif order.status == 'delivered' %}bg-success
+                                             {% else %}bg-danger{% endif %}">
+                                {{ order.get_status_display }}
+                            </span>
+                        </td>
+                        <td>{{ order.get_total_cost }} ₽</td>
+                        <td>
+                            <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-outline-primary btn-sm">
+                                Подробнее
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p class="mb-0">У вас пока нет заказов. <a href="{% url 'tyres:catalogue' %}">Перейти в каталог</a></p>
+    </div>
+{% endif %}
+{% endblock %} 
