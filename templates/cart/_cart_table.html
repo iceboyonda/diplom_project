@@ -7,7 +7,6 @@
                     <th>Количество</th>
                     <th>Цена за шт.</th>
                     <th>Сумма</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -16,27 +15,31 @@
                         <td>
                             <div class="d-flex align-items-center">
                                 <div>
-                                    <h5 class="mb-1">{{ item.tyre.model.brand }} {{ item.tyre.model.name }}</h5>
-                                    <p class="mb-0 text-muted">
-                                        {{ item.tyre.width }}/{{ item.tyre.profile }} R{{ item.tyre.radius }}
-                                        ({{ item.tyre.get_season_display }})
-                                    </p>
+                                    {% if item.type == 'tyre' %}
+                                        <h5 class="mb-1">{{ item.product.model.brand }} {{ item.product.model.name }}</h5>
+                                        <p class="mb-0">
+                                            {{ item.product.width }}/{{ item.product.profile }} R{{ item.product.radius }}
+                                            ({{ item.product.get_season_display }})
+                                        </p>
+                                    {% elif item.type == 'rim' %}
+                                        <h5 class="mb-1">{{ item.product.model.brand }} {{ item.product.model.name }}</h5>
+                                        <p class="mb-0 text-muted">
+                                        </p>
+                                    {% else %}
+                                        <span class="text-danger">Ошибка: неизвестный тип товара</span>
+                                    {% endif %}
                                 </div>
                             </div>
                         </td>
                         <td>
-                            {{ item.quantity }}
+                            {% if item.type == 'tyre' %}
+                                {{ item.quantity }}
+                            {% elif item.type == 'rim' %}
+                                {{ item.quantity }}
+                            {% endif %}
                         </td>
                         <td>{{ item.price }} ₽</td>
                         <td>{{ item.total_price }} ₽</td>
-                        <td>
-                            <form action="{% url 'cart:remove' item.tyre.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-danger btn-sm">
-                                    <i class="bi bi-trash"></i> Удалить
-                                </button>
-                            </form>
-                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -44,21 +47,13 @@
                 <tr>
                     <td colspan="3" class="text-end"><strong>Итого:</strong></td>
                     <td id="cart-total"><strong>{{ cart.get_total_price }} ₽</strong></td>
-                    <td></td>
                 </tr>
             </tfoot>
         </table>
     </div>
-    <div class="d-flex justify-content-between mt-4">
-        <a href="{% url 'tyres:catalogue' %}" class="btn btn-outline-primary">
-            <i class="bi bi-arrow-left"></i> Продолжить покупки
-        </a>
-        <a href="{% url 'orders:create' %}" class="btn btn-primary">
-            Оформить заказ <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
 {% else %}
     <div class="alert alert-info">
-        <p class="mb-0">Ваша корзина пуста. <a href="{% url 'tyres:catalogue' %}">Перейти в каталог</a></p>
+        <i class="bi bi-info-circle me-2"></i>
+        Ваша корзина пуста
     </div>
 {% endif %} 

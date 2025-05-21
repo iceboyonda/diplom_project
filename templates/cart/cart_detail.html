@@ -14,4 +14,17 @@
         <p class="mb-0">Ваша корзина пуста. <a href="{% url 'tyres:catalogue' %}">Перейти в каталог</a></p>
     </div>
 {% endif %}
+
+<div class="d-flex justify-content-between mt-4">
+    <a href="{% url 'tyres:catalogue' %}" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left"></i> Продолжить покупки
+    </a>
+    <form action="{% url 'cart:clear' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Очистить корзину</button>
+    </form>
+    <a href="{% url 'orders:create' %}" class="btn btn-primary">
+        Оформить заказ <i class="bi bi-arrow-right"></i>
+    </a>
+</div>
 {% endblock %} 

@@ -1,0 +1,56 @@
+<style>
+body.dark-theme .table, body.dark-theme .table th, body.dark-theme .table td {
+    color: #fff !important;
+    background-color: #232323 !important;
+    border-color: #444 !important;
+}
+</style>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Размер</th>
+            <th>Сезон</th>
+            <th>Шипы</th>
+            <th>Индекс скорости</th>
+            <th>Цена</th>
+            <th>В наличии</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for variant in tyre.variants.all %}
+        <tr>
+            <td>{{ variant.width }}/{{ variant.profile }} R{{ variant.radius }}</td>
+            <td>{{ variant.get_season_display }}</td>
+            <td>{% if variant.studded %}Да{% else %}Нет{% endif %}</td>
+            <td>{{ variant.speed_index }}</td>
+            <td>{{ variant.price }} ₽</td>
+            <td>{{ variant.stock }}</td>
+            <td>
+                {% if variant.stock > 0 %}
+                <form action="{% url 'cart:add' variant.id %}" method="post" class="d-flex align-items-center">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="1" min="1" max="{{ variant.stock }}" class="form-control me-2" style="width: 80px;">
+                    <button type="submit" class="btn btn-primary btn-sm">В корзину</button>
+                </form>
+                {% else %}
+                <span class="text-danger">Нет в наличии</span>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    {% if variant.id in favourite_ids %}
+                        <form action="{% url 'tyres:remove_favourite' variant.id %}" method="post" class="mt-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Убрать из избранного</button>
+                        </form>
+                    {% else %}
+                        <form action="{% url 'tyres:add_favourite' variant.id %}" method="post" class="mt-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">❤ В избранное</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table> 

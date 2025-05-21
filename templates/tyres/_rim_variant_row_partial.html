@@ -1,0 +1,48 @@
+{% load i18n static %}
+
+            <tr>
+                <td>{{ variant.diameter|floatformat:1 }}</td>
+                <td>{{ variant.width|floatformat:1 }}</td>
+                <td>{{ variant.bolt_pattern }}</td>
+                <td>{{ variant.offset }}</td>
+                <td>{{ variant.dia }}</td>
+                <td>{{ variant.color }}</td>
+                <td>{{ variant.material }}</td>
+                <td>{{ variant.price|floatformat:0 }} ₽</td>
+                <td>{% if variant.stock > 0 %}{{ variant.stock }} шт.{% else %}Нет в наличии{% endif %}</td>
+                <td>
+                    <div class="d-flex flex-column gap-2">
+                        {% if variant.stock > 0 %}
+                        <form action="{% url 'cart:add_rim' variant.id %}" method="post" class="d-flex align-items-center">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="1" min="1" max="{{ variant.stock }}" class="form-control me-2" style="width: 80px;">
+                            <button type="submit" class="btn btn-primary btn-sm">В корзину</button>
+                        </form>
+                        {% else %}
+                        <span class="text-danger">Нет в наличии</span>
+                        {% endif %}
+                        
+                        {% if user.is_authenticated %}
+                            {% if variant.id in favourite_rim_ids %}
+                                <form action="{% url 'tyres:remove_favourite_rim' variant.id %}" method="post"
+                                      hx-post="{% url 'tyres:remove_favourite_rim' variant.id %}" 
+                                      hx-target="closest tr" 
+                                      hx-swap="outerHTML">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="variant_id" value="{{ variant.id }}">
+                                    <button type="submit" class="btn btn-danger btn-sm w-100">Убрать из избранного</button>
+                                </form>
+                            {% else %}
+                                <form action="{% url 'tyres:add_favourite_rim' variant.id %}" method="post"
+                                      hx-post="{% url 'tyres:add_favourite_rim' variant.id %}"
+                                      hx-target="closest tr"
+                                      hx-swap="outerHTML">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="variant_id" value="{{ variant.id }}">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm w-100">❤ В избранное</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </td>
+            </tr> 

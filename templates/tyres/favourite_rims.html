@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Избранные диски - Tyre Trust{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Избранные диски</h1>
+    {% if rim_variants %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for variant in rim_variants %}
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ variant.model.brand }} {{ variant.model.name }}</h5>
+                            <p class="card-text">
+                                <strong>{{ variant.diameter }}x{{ variant.width }}</strong> ET{{ variant.offset }}<br>
+                                {{ variant.bolt_pattern }}, {{ variant.color }}, {{ variant.material }}<br>
+                                Цена: {{ variant.price|floatformat:0 }} ₽
+                            </p>
+                            <div class="d-flex gap-2">
+                                {% if variant.stock > 0 %}
+                                <form action="{% url 'cart:add_rim' variant.id %}" method="post" class="d-flex align-items-center">
+                                    {% csrf_token %}
+                                    <input type="number" name="quantity" value="1" min="1" max="{{ variant.stock }}" class="form-control me-2" style="width: 80px;">
+                                    <button type="submit" class="btn btn-primary btn-sm">В корзину</button>
+                                </form>
+                                {% else %}
+                                <span class="text-danger">Нет в наличии</span>
+                                {% endif %}
+                                <form action="{% url 'tyres:remove_favourite_rim' variant.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Убрать из избранного</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">У вас нет избранных дисков.</div>
+    {% endif %}
+</div>
+{% endblock %} 

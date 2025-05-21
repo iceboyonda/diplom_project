@@ -6,10 +6,30 @@
         <div class="card-body">
             <h2 class="mb-4 text-center">Админ-панель</h2>
             <div class="list-group list-group-flush">
-                <a href="{% url 'tyres:admin_tyres' %}" class="list-group-item list-group-item-action bg-dark text-light fs-5 mb-2 rounded">Товары</a>
-                <a href="{% url 'accounts:admin_users' %}" class="list-group-item list-group-item-action bg-dark text-light fs-5 mb-2 rounded">Пользователи</a>
-                <a href="{% url 'orders:admin_orders' %}" class="list-group-item list-group-item-action bg-dark text-light fs-5 mb-2 rounded">Заказы</a>
-                <a href="{% url 'tyres:admin_categories' %}" class="list-group-item list-group-item-action bg-dark text-light fs-5 mb-2 rounded">Категории</a>
+                <a href="{% url 'tyres:admin_tyres' %}" class="list-group-item list-group-item-action bg-dark text-light fs-5 mb-2 rounded">
+                    <span class="d-flex align-items-center">
+                        <i class="fas fa-car-tire" style="font-size: 1.2rem; margin-right: 0.5rem;"></i>
+                        <span>Управление шинами</span>
+                    </span>
+                </a>
+                <a href="{% url 'tyres:admin_categories' %}" class="list-group-item list-group-item-action bg-dark text-light fs-5 mb-2 rounded">
+                    <span class="d-flex align-items-center">
+                        <i class="fas fa-cog" style="font-size: 1.2rem; margin-right: 0.5rem;"></i>
+                        <span>Управление дисками</span>
+                    </span>
+                </a>
+                <a href="{% url 'accounts:admin_users' %}" class="list-group-item list-group-item-action bg-dark text-light fs-5 mb-2 rounded">
+                    <span class="d-flex align-items-center">
+                        <i class="fas fa-users" style="font-size: 1.2rem; margin-right: 0.5rem;"></i>
+                        <span>Пользователи</span>
+                    </span>
+                </a>
+                <a href="{% url 'orders:admin_orders' %}" class="list-group-item list-group-item-action bg-dark text-light fs-5 mb-2 rounded">
+                    <span class="d-flex align-items-center">
+                        <i class="fas fa-box-open" style="font-size: 1.2rem; margin-right: 0.5rem;"></i>
+                        <span>Заказы</span>
+                    </span>
+                </a>
             </div>
         </div>
     </div>
@@ -22,11 +42,12 @@
 .list-group-item.bg-dark {
     background: #23262b !important;
     border: none;
-    transition: background 0.2s;
+    transition: all 0.3s ease;
 }
 .list-group-item.bg-dark:hover {
     background: #0d6efd !important;
     color: #fff !important;
+    transform: translateX(10px);
 }
 </style>
 {% endblock %} 

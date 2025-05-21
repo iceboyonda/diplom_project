@@ -3,144 +3,232 @@
 {% block title %}Каталог шин - Tyre Trust{% endblock %}
 
 {% block content %}
-<div class="row mb-3">
-    <div class="col text-end">
-        <a href="{% url 'tyres:faq' %}" class="btn btn-outline-info">FAQ: Как выбрать шины?</a>
-    </div>
-</div>
-<div class="row">
-    <!-- Фильтры -->
-    <div class="col-md-3">
-        <div class="card mb-4 border-0 shadow-sm filter-block">
-            <div class="card-header bg-transparent border-0">
-                <h5 class="mb-0">Фильтры</h5>
+    <!-- Баннер с акцией -->
+    {# Удаляем баннер с акцией #}
+
+    <!-- Секция с преимуществами -->
+    <div class="features-section">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-truck"></i></div>
+                    <h5>Быстрая доставка</h5>
+                    <p>Доставляем в течение 1-2 дней по всей России</p>
+                </div>
             </div>
-            <div class="card-body">
-                <form action="{% url 'tyres:filter_tyres' %}" method="get" 
-                      hx-get="{% url 'tyres:filter_tyres' %}" 
-                      hx-target="#tyres-list" 
-                      hx-trigger="change"
-                      hx-indicator="#loading-indicator">
-                    <!-- Бренд -->
-                    <div class="mb-3">
-                        <label class="form-label">Бренд</label>
-                        <select name="brand" class="form-select border-secondary">
-                            <option value="">Все бренды</option>
-                            {% for brand in brands %}
-                                <option value="{{ brand }}">{{ brand }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+            <div class="col-md-3">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-check-circle"></i></div>
+                    <h5>Гарантия качества</h5>
+                    <p>Все товары проходят тщательную проверку</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-tags"></i></div>
+                    <h5>Лучшие цены</h5>
+                    <p>Регулярные акции и специальные предложения</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-tools"></i></div>
+                    <h5>Профессиональная установка</h5>
+                    <p>Сеть сервисных центров по всей стране</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <!-- Ширина -->
-                    <div class="mb-3">
-                        <label class="form-label">Ширина</label>
-                        <select name="width" class="form-select border-secondary">
-                            <option value="">Любая</option>
-                            {% for width in widths %}
-                                <option value="{{ width }}">{{ width }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+    <!-- Популярные категории -->
+    <div class="categories-section">
+        <h3 class="mb-4">Популярные категории</h3>
+        <div class="row justify-content-center">
+            <div class="col-md-6 d-flex justify-content-center">
+                <button 
+                    class="category-card category-card-custom w-100"
+                    style="max-width: 500px; height: 80px; border: none; outline: none; cursor: pointer; margin-bottom: 2rem;"
+                    hx-get="{% url 'tyres:catalogue' %}?season=summer"
+                    hx-target="#tyres-list"
+                    hx-trigger="click"
+                    hx-push-url="true"
+                    hx-indicator="#loading-indicator"
+                >
+                    <span class="category-title">Летние шины</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-                    <!-- Профиль -->
-                    <div class="mb-3">
-                        <label class="form-label">Профиль</label>
-                        <select name="profile" class="form-select border-secondary">
-                            <option value="">Любой</option>
-                            {% for profile in profiles %}
-                                <option value="{{ profile }}">{{ profile }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+    <!-- Существующий контент каталога -->
+    <h2 class="catalog-title">Каталог шин</h2>
+    <div class="row mb-3">
+        <div class="col text-end">
+            <a href="{% url 'tyres:faq' %}" class="btn btn-outline-info">FAQ: Как выбрать шины?</a>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Фильтры -->
+        <div class="col-md-3">
+            <div class="card mb-4 border-0 shadow-sm filter-block">
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="mb-0">Фильтры</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'tyres:catalogue' %}" method="get" 
+                          hx-get="{% url 'tyres:catalogue' %}" 
+                          hx-target="#tyres-list" 
+                          hx-trigger="change, submit"
+                          hx-push-url="true"
+                          hx-indicator="#loading-indicator"
+                          hx-on--after-request="this.form.reset()">
+                        {# Удаляем поле поиска по названию для шин #}
+                        {# <div class="mb-3"><input type="text" name="q" class="form-control border-secondary" placeholder="Поиск по названию..." value="{{ request.GET.q }}"></div> #}
 
-                    <!-- Радиус -->
-                    <div class="mb-3">
-                        <label class="form-label">Радиус</label>
-                        <select name="radius" class="form-select border-secondary">
-                            <option value="">Любой</option>
-                            {% for radius in radiuses %}
-                                <option value="{{ radius }}">R{{ radius }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <!-- Сезон -->
-                    <div class="mb-3">
-                        <label class="form-label">Сезон</label>
-                        <select name="season" class="form-select border-secondary">
-                            <option value="">Любой</option>
-                            {% for key, value in seasons.items %}
-                                <option value="{{ key }}">{{ value }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <!-- Шипы -->
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input type="checkbox" name="studded" class="form-check-input" id="studded">
-                            <label class="form-check-label" for="studded">Шипованные</label>
+                        <!-- Бренд -->
+                        <div class="mb-3">
+                            <label class="form-label">Бренд</label>
+                            <select name="brand" class="form-select border-secondary">
+                                <option value="">Все бренды</option>
+                                {% for brand in brands %}
+                                    <option value="{{ brand }}">{{ brand }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
-                    </div>
 
-                    <!-- Цена -->
-                    <div class="mb-3">
-                        <label class="form-label">Цена</label>
-                        <div class="input-group mb-2">
-                            <input type="number" name="min_price" class="form-control border-secondary" placeholder="От">
-                            <input type="number" name="max_price" class="form-control border-secondary" placeholder="До">
+                        <!-- Ширина -->
+                        <div class="mb-3">
+                            <label class="form-label">Ширина</label>
+                            <select name="width" class="form-select border-secondary">
+                                <option value="">Любая</option>
+                                {% for width in widths %}
+                                    <option value="{{ width }}">{{ width }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
-                    </div>
 
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary w-100">Применить</button>
-                        <a href="{% url 'tyres:catalogue' %}" 
-                           class="btn btn-secondary w-100" 
-                           hx-get="{% url 'tyres:catalogue' %}" 
-                           hx-target="#tyres-list" 
-                           hx-push-url="true"
-                           hx-indicator="#loading-indicator">Сбросить</a>
-                    </div>
-                </form>
+                        <!-- Профиль -->
+                        <div class="mb-3">
+                            <label class="form-label">Профиль</label>
+                            <select name="profile" class="form-select border-secondary">
+                                <option value="">Любой</option>
+                                {% for profile in profiles %}
+                                    <option value="{{ profile }}">{{ profile }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Радиус -->
+                        <div class="mb-3">
+                            <label class="form-label">Радиус</label>
+                            <select name="radius" class="form-select border-secondary">
+                                <option value="">Любой</option>
+                                {% for radius in radiuses %}
+                                    <option value="{{ radius }}">R{{ radius }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Сезон -->
+                        <div class="mb-3">
+                            <label class="form-label">Сезон</label>
+                            <select name="season" class="form-select border-secondary">
+                                <option value="">Любой</option>
+                                {% for key, value in seasons.items %}
+                                    <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Шипы -->
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" name="studded" class="form-check-input" id="studded">
+                                <label class="form-check-label" for="studded">Шипованные</label>
+                            </div>
+                        </div>
+
+                        <!-- Цена -->
+                        <div class="mb-3">
+                            <label class="form-label">Цена</label>
+                            <div class="input-group mb-2">
+                                <input type="number" name="min_price" class="form-control border-secondary" placeholder="От">
+                                <input type="number" name="max_price" class="form-control border-secondary" placeholder="До">
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary w-100">Применить</button>
+                            <a href="{% url 'tyres:catalogue' %}" 
+                               class="btn btn-secondary w-100" 
+                               hx-get="{% url 'tyres:catalogue' %}" 
+                               hx-target="#tyres-list" 
+                               hx-push-url="true"
+                               hx-indicator="#loading-indicator"
+                               hx-on--after-request="resetTyreFilters(this.form)">Сбросить</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Список шин -->
+        <div class="col-md-9">
+            <!-- Индикатор загрузки -->
+            <div id="loading-indicator" class="htmx-indicator text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Загрузка...</span>
+                </div>
+            </div>
+            <div id="tyres-list" class="fade-transition" style="margin-top: 0;">
+                {% include "tyres/_tyres_list.html" %}
             </div>
         </div>
     </div>
 
-    <!-- Список шин -->
-    <div class="col-md-9">
-        <h1 class="catalogue-title">Каталог шин</h1>
-        <!-- Индикатор загрузки -->
-        <div id="loading-indicator" class="htmx-indicator text-center py-5">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Загрузка...</span>
-            </div>
-        </div>
-        <div id="tyres-list" class="fade-transition" style="margin-top: 0;">
-            {% include "tyres/_tyres_list.html" %}
-        </div>
-    </div>
-</div>
-
-<style>
-    .fade-transition {
-        transition: opacity 0.3s ease-in-out;
-    }
-    .htmx-request .fade-transition {
-        opacity: 0.5;
-    }
-    .form-select:focus, .form-control:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-    }
-    .card {
-        transition: transform 0.2s ease-in-out;
-    }
-    .card:hover {
-        transform: translateY(-2px);
-    }
-    .catalogue-title {
-        margin-bottom: 0.5rem;
-    }
-</style>
+    <style>
+        .fade-transition {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .htmx-request .fade-transition {
+            opacity: 0.5;
+        }
+        .form-select:focus, .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .card {
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        .catalogue-title {
+            margin-bottom: 0.5rem;
+        }
+        .category-card-custom {
+            background: linear-gradient(90deg, #3973f7, #8e44ad);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 0;
+        }
+        .category-card-custom:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+        }
+        .category-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+            margin: 0;
+            letter-spacing: 1px;
+        }
+    </style>
 {% endblock %} 

@@ -5,7 +5,7 @@
             <li class="page-item">
                 <a class="page-link" 
                    hx-get="?page={{ page_obj.previous_page_number }}{{ query_string }}" 
-                   hx-target="#tyres-list" 
+                   hx-target="{{ hx_target|default:'#tyres-list' }}" 
                    hx-push-url="true" 
                    hx-indicator="#loading-indicator"
                    href="?page={{ page_obj.previous_page_number }}{{ query_string }}" 
@@ -34,7 +34,7 @@
                 <li class="page-item">
                     <a class="page-link" 
                        hx-get="?page={{ num }}{{ query_string }}" 
-                       hx-target="#tyres-list" 
+                       hx-target="{{ hx_target|default:'#tyres-list' }}" 
                        hx-push-url="true"
                        hx-indicator="#loading-indicator"
                        href="?page={{ num }}{{ query_string }}">{{ num }}</a>
@@ -46,7 +46,7 @@
             <li class="page-item">
                 <a class="page-link" 
                    hx-get="?page={{ page_obj.next_page_number }}{{ query_string }}" 
-                   hx-target="#tyres-list" 
+                   hx-target="{{ hx_target|default:'#tyres-list' }}" 
                    hx-push-url="true"
                    hx-indicator="#loading-indicator"
                    href="?page={{ page_obj.next_page_number }}{{ query_string }}" 

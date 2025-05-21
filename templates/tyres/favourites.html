@@ -4,41 +4,94 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Избранные варианты шин</h1>
-    {% if favourite_variants %}
+    <h1 class="mb-4">Избранное</h1>
+
+    <h2>Избранные шины</h2>
+    {% if favourite_tyre_variants %}
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Модель</th>
                 <th>Размер</th>
-                <th>Сезон</th>
-                <th>Шипы</th>
-                <th>Индекс скорости</th>
                 <th>Цена</th>
-                <th></th>
+                <th>В наличии</th>
+                <th>Количество</th>
             </tr>
         </thead>
         <tbody>
-            {% for variant in favourite_variants %}
+            {% for variant in favourite_tyre_variants %}
             <tr>
                 <td>{{ variant.model.brand }} {{ variant.model.name }}</td>
                 <td>{{ variant.width }}/{{ variant.profile }} R{{ variant.radius }}</td>
-                <td>{{ variant.get_season_display }}</td>
-                <td>{% if variant.studded %}Да{% else %}Нет{% endif %}</td>
-                <td>{{ variant.speed_index }}</td>
-                <td>{{ variant.price }} ₽</td>
+                <td>{{ variant.price|floatformat:0 }} ₽</td>
+                <td>{% if variant.stock > 0 %}{{ variant.stock }} шт.{% else %}Нет в наличии{% endif %}</td>
                 <td>
-                    <form action="{% url 'tyres:remove_favourite' variant.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm">Убрать</button>
-                    </form>
+                    <div class="d-flex flex-column gap-2">
+                         {% if variant.stock > 0 %}
+                        <form action="{% url 'cart:add' variant.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="1" min="1" max="{{ variant.stock }}" class="form-control form-control-sm mb-1" style="width: 80px;">
+                            <button type="submit" class="btn btn-primary btn-sm">В корзину</button>
+                        </form>
+                        {% else %}
+                        <span class="text-danger">Нет в наличии</span>
+                        {% endif %}
+                        <form action="{% url 'tyres:remove_favourite' variant.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Убрать из избранного</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
-    <div class="alert alert-info">У вас нет избранных вариантов.</div>
+    <div class="alert alert-info">У вас нет избранных шин.</div>
+    {% endif %}
+
+    <h2 class="mt-5">Избранные диски</h2>
+    {% if favourite_rim_variants %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Модель</th>
+                <th>Параметры</th>
+                <th>Цена</th>
+                <th>В наличии</th>
+                <th>Количество</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for variant in favourite_rim_variants %}
+            <tr>
+                <td>{{ variant.model.brand }} {{ variant.model.name }}</td>
+                <td>{{ variant.diameter|floatformat:1 }}x{{ variant.width|floatformat:1 }}</td>
+                <td>{{ variant.price|floatformat:0 }} ₽</td>
+                 <td>{% if variant.stock > 0 %}{{ variant.stock }} шт.{% else %}Нет в наличии{% endif %}</td>
+                <td>
+                    <div class="d-flex flex-column gap-2">
+                        {% if variant.stock > 0 %}
+                        <form action="{% url 'cart:add_rim' variant.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="1" min="1" max="{{ variant.stock }}" class="form-control form-control-sm mb-1" style="width: 80px;">
+                            <button type="submit" class="btn btn-primary btn-sm">В корзину</button>
+                        </form>
+                        {% else %}
+                        <span class="text-danger">Нет в наличии</span>
+                        {% endif %}
+                        <form action="{% url 'tyres:remove_favourite_rim' variant.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Убрать из избранного</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info">У вас нет избранных дисков.</div>
     {% endif %}
 </div>
 {% endblock %} 

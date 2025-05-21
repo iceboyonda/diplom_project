@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Каталог дисков - Tyre Trust{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col text-end">
+        {# Можно добавить ссылку на FAQ по дискам, если такой будет #}
+        {# <a href="{% url 'tyres:faq_rims' %}" class="btn btn-outline-info">FAQ: Как выбрать диски?</a> #}
+    </div>
+</div>
+<div class="row">
+    <!-- Фильтры -->
+    <div class="col-md-3">
+        <div class="card mb-4 border-0 shadow-sm filter-block">
+            <div class="card-header bg-transparent border-0">
+                <h5 class="mb-0">Фильтры дисков</h5>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'tyres:rim_list' %}" method="get" 
+                      hx-get="{% url 'tyres:rim_list' %}" 
+                      hx-target="#rims-list" 
+                      hx-trigger="change, submit"
+                      hx-indicator="#loading-indicator">
+                    {# Удаляем строку поиска по названию #}
+                    {# <div class="mb-3"><input type="text" name="query" class="form-control border-secondary" placeholder="Поиск по названию..." value="{{ request.GET.q }}"></div> #}
+
+                    <!-- Бренд -->
+                    <div class="mb-3">
+                        <label class="form-label">Бренд</label>
+                        <select name="brand" class="form-select border-secondary">
+                            <option value="">Все бренды</option>
+                            {% for brand in brands %}
+                                <option value="{{ brand }}">{{ brand }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Диаметр -->
+                    <div class="mb-3">
+                        <label class="form-label">Диаметр</label>
+                        <select name="diameter" class="form-select border-secondary">
+                            <option value="">Любой</option>
+                            {% for diameter in available_diameters %}
+                                <option value="{{ diameter }}" {% if diameter == selected_diameters|first %}selected{% endif %}>{{ diameter }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Ширина -->
+                    <div class="mb-3">
+                        <label class="form-label">Ширина</label>
+                        <select name="width" class="form-select border-secondary">
+                            <option value="">Любая</option>
+                            {% for width in available_widths %}
+                                <option value="{{ width }}" {% if width == selected_widths|first %}selected{% endif %}>{{ width }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Тип крепления -->
+                    <div class="mb-3">
+                        <label class="form-label">Крепление</label>
+                        <select name="bolt_pattern" class="form-select border-secondary">
+                            <option value="">Любое</option>
+                            {% for pattern in available_bolt_patterns %}
+                                <option value="{{ pattern }}" {% if pattern == selected_bolt_patterns|first %}selected{% endif %}>{{ pattern }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Материал -->
+                    <div class="mb-3">
+                        <label class="form-label">Материал</label>
+                        <select name="material" class="form-select border-secondary">
+                            <option value="">Любой</option>
+                            {% for material in materials %}
+                                <option value="{{ material }}">{{ material }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Цвет -->
+                    <div class="mb-3">
+                        <label class="form-label">Цвет</label>
+                        <select name="color" class="form-select border-secondary">
+                            <option value="">Любой</option>
+                            {% for color in colors %}
+                                <option value="{{ color }}">{{ color }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Цена -->
+                    <div class="mb-3">
+                        <label class="form-label">Цена</label>
+                        <div class="input-group mb-2">
+                            <input type="number" name="min_price" class="form-control border-secondary" placeholder="От">
+                            <input type="number" name="max_price" class="form-control border-secondary" placeholder="До">
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary w-100">Применить</button>
+                        <a href="{% url 'tyres:rim_list' %}" 
+                           class="btn btn-secondary w-100" 
+                           hx-get="{% url 'tyres:rim_list' %}" 
+                           hx-target="#rims-list" 
+                           hx-push-url="true"
+                           hx-indicator="#loading-indicator">Сбросить</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Список дисков -->
+    <div class="col-md-9">
+        <h1 class="catalogue-title">Каталог дисков</h1>
+        <!-- Индикатор загрузки -->
+        <div id="loading-indicator" class="htmx-indicator text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Загрузка...</span>
+            </div>
+        </div>
+        <div id="rims-list" class="fade-transition" style="margin-top: 0;">
+            {% include "tyres/_rims_list.html" %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .fade-transition {
+        transition: opacity 0.3s ease-in-out;
+    }
+    .htmx-request .fade-transition {
+        opacity: 0.5;
+    }
+    .form-select:focus, .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-2px);
+    }
+    .catalogue-title {
+        margin-bottom: 0;
+    }
+</style>
+{% endblock %} 

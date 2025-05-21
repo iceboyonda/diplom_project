@@ -1,0 +1,168 @@
+<div class="row row-cols-1 row-cols-md-3 g-4">
+{% comment %} DEBUG: Проверка, рендерится ли _rims_list.html до цикла по дискам {% endcomment %}
+{# <p>DEBUG: Rendering _rims_list.html. About to loop through rims.</p> #}
+
+{% comment %} DEBUG: Проверка типа page_obj.object_list {% endcomment %}
+{# <p>DEBUG: Type of page_obj.object_list: {{ page_obj.object_list|class_name }}</p> #} {# Удаляем строку с недействительным фильтром #}
+
+{% comment %} DEBUG: Проверка первого элемента в page_obj.object_list {% endcomment %}
+{# <p>DEBUG: First item in page_obj.object_list ID: {{ page_obj.object_list.0.id }}</p> #}
+{# <p>DEBUG: First item Brand: {{ page_obj.object_list.0.brand }}</p> #}
+{# <p>DEBUG: First item Variants Count: {{ page_obj.object_list.0.variants.count }}</p> #}
+
+{% comment %} DEBUG: Дополнительные проверки перед циклом {% endcomment %}
+{# <p>DEBUG: Count of page_obj.object_list: {{ page_obj.object_list|length }}</p> #}
+{# <p>DEBUG: page_obj.object_list type: {{ page_obj.object_list }}</p> #}
+
+{% if no_rims_in_db %}
+  <div class="col-12">
+    <div class="alert alert-warning shadow-sm">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      В базе нет ни одного диска. Добавьте диски через админку.
+    </div>
+  </div>
+{% elif page_obj.paginator.count == 0 %}
+  <div class="col-12">
+    <div class="alert alert-info shadow-sm">
+      <i class="fas fa-info-circle me-2"></i>
+      {% if query %}
+        По запросу "{{ query }}" диски не найдены. Попробуйте изменить параметры поиска или сбросить фильтры.
+      {% else %}
+        Диски не найдены. Попробуйте изменить параметры фильтрации или сбросить фильтры.
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+{% comment %} Возвращаем цикл к стандартному виду {% endcomment %}
+{% for rim in page_obj.object_list %}
+  <div class="col">
+    {# Возвращаем HTML карточки диска #}
+    <div class="card tyre-card h-100 shadow-sm rounded">
+        {% if rim.image %}
+            <div class="card-img-wrapper">
+                <img src="{{ rim.image.url }}" class="card-img-top" alt="{{ rim.brand }} {{ rim.name }} фото">
+            </div>
+        {% else %}
+            {% with variant=rim.variants.all|first %}
+                {% if variant and variant.image %}
+                    <div class="card-img-wrapper">
+                        <img src="{{ variant.image.url }}" class="card-img-top" alt="{{ rim.brand }} {{ rim.name }} фото">
+                    </div>
+                {% else %}
+                    <div class="card-img-wrapper">
+                        <img src="/static/img/default-rim.png" class="card-img-top" alt="Фото диска не найдено">
+                    </div>
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+
+        <div class="card-body d-flex flex-column tyre-details">
+            <h5 class="card-title">{{ rim.brand }} {{ rim.name }}</h5>
+            <p class="card-text">
+                {% if rim.diameter_display %}
+                    <small class="card-spec">Размеры: {{ rim.diameter_display }}</small><br>
+                {% endif %}
+                {% if rim.width_display %}
+                    <small class="card-spec">Ширина: {{ rim.width_display }}</small><br>
+                {% endif %}
+                {% if rim.bolt_patterns_display %}
+                    <small class="card-spec">Крепление: {{ rim.bolt_patterns_display }}</small><br>
+                {% endif %}
+                Цена: <strong class="price-tag">от {{ rim.min_price|floatformat:0 }} ₽</strong>
+            </p>
+
+            {# Кнопка "Подробнее" #}
+            <a href="{% url 'tyres:rim_detail' rim.id %}" class="btn btn-outline-secondary btn-sm mt-2 w-100">
+                <i class="fas fa-info-circle"></i> Подробнее
+            </a>
+        </div>
+    </div>
+    {# Конец HTML карточки диска #}
+
+    {# Отладочные сообщения (если нужно для пошаговой отладки после annotate) #}
+    {# <p>DEBUG: Inside loop for rim. Rim ID: {{ rim.id }}</p> #}
+    {# <p>DEBUG: Brand: {{ rim.brand }}</p> #}
+    {# <p>DEBUG: Name: {{ rim.name }}</p> #}
+    {# <p>DEBUG: Diameter Display: {{ rim.diameter_display }}</p> #}
+    {# <p>DEBUG: Width Display: {{ rim.width_display }}</p> #}
+    {# <p>DEBUG: Bolt Pattern Display: {{ rim.bolt_patterns_display }}</p> #}
+    {# <p>DEBUG: Min Price: {{ rim.min_price }}</p> #}
+    {# {% for variant in rim.variants.all %} #}
+    {#   <p>DEBUG Variant: ID: {{ variant.id }}, Diameter: {{ variant.diameter }}, Price: {{ variant.price }}</p> #}
+    {# {% endfor %} #}
+  </div>
+{% endfor %}
+{% endif %}
+</div>
+
+<style>
+.tyre-card {
+    transition: all 0.3s ease;
+    background: var(--card-bg) !important;
+    color: var(--text-color) !important;
+}
+
+.tyre-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3) !important;
+}
+
+.card-img-wrapper {
+    position: relative;
+    padding-top: 75%;
+    overflow: hidden;
+    background: var(--card-bg) !important;
+}
+
+.card-img-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.tyre-card:hover .card-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.tyre-details {
+    padding: 1rem;
+}
+
+.price-tag {
+    font-size: 1.25rem;
+    color: var(--bs-primary);
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+
+.btn-danger, .btn-outline-danger {
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover, .btn-outline-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .card-spec {
+    color: #bfc9db !important;
+}
+</style>
+
+{% include "tyres/_pagination.html" with page_obj=page_obj query_string=query_string hx_target="#rims-list" %} 

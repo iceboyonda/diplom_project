@@ -20,12 +20,20 @@ def order_create(request):
             order.save()
             
             for item in cart:
-                OrderItem.objects.create(
-                    order=order,
-                    tyre=item['tyre'],
-                    price=item['price'],
-                    quantity=item['quantity']
-                )
+                if item['type'] == 'tyre':
+                    OrderItem.objects.create(
+                        order=order,
+                        tyre=item['product'],
+                        price=item['price'],
+                        quantity=item['quantity']
+                    )
+                else:  # rim
+                    OrderItem.objects.create(
+                        order=order,
+                        rim=item['product'],
+                        price=item['price'],
+                        quantity=item['quantity']
+                    )
             
             # Очищаем корзину
             cart.clear()

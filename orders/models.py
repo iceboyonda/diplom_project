@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tyres.models import TyreVariant
+from tyres.models import TyreVariant, RimVariant
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -37,7 +37,8 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE, verbose_name='Заказ')
-    tyre = models.ForeignKey(TyreVariant, related_name='order_items', on_delete=models.CASCADE, verbose_name='Шина')
+    tyre = models.ForeignKey(TyreVariant, related_name='order_items', on_delete=models.CASCADE, verbose_name='Шина', null=True, blank=True)
+    rim = models.ForeignKey(RimVariant, related_name='order_items', on_delete=models.CASCADE, verbose_name='Диск', null=True, blank=True)
     price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField('Количество', default=1)
 
@@ -45,4 +46,11 @@ class OrderItem(models.Model):
         return str(self.id)
 
     def get_cost(self):
-        return self.price * self.quantity 
+        return self.price * self.quantity
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if not self.tyre and not self.rim:
+            raise ValidationError('Необходимо указать либо шину, либо диск')
+        if self.tyre and self.rim:
+            raise ValidationError('Нельзя указать и шину, и диск одновременно') 

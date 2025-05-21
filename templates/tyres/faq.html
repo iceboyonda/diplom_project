@@ -104,5 +104,57 @@
     min-height: 600px;
     transition: min-height 0.3s;
 }
+
+/* Стили для темной темы */
+.accordion-item {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color, #454545); /* Добавляем цвет границы для темной темы */
+}
+
+.accordion-header button {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    /* Убираем стандартные тени и градиенты, которые могут быть светлыми */
+    box-shadow: none;
+    /* Стили при наведении/фокусе */
+    &:hover,
+    &:focus {
+        background-color: var(--darker-card-bg, #333);
+        color: var(--text-color);
+        border-color: var(--border-color, #454545);
+        box-shadow: none;
+    }
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--darker-card-bg, #333); /* Фон активной кнопки аккордеона */
+    color: var(--text-color);
+    box-shadow: none;
+}
+
+.accordion-body {
+    color: var(--text-color);
+    background-color: var(--card-bg);
+}
+
+/* Корректировка стиля таблицы в FAQ для темной темы */
+.table {
+    color: var(--text-color); /* Цвет текста в таблице */
+    /* Возможно, базовый CSS уже делает фон темным, если нет, можно добавить: */
+    /* background-color: var(--card-bg); */
+}
+
+.table th,
+.table td {
+    border-color: var(--border-color, #454545); /* Цвет границ ячеек */
+}
+
+.table thead.table-light th {
+    /* Убираем светлый фон заголовка таблицы и ставим темный */
+    background-color: var(--darker-card-bg, #333);
+    color: var(--text-color);
+    border-color: var(--border-color, #454545);
+}
 </style>
 {% endblock %} 
