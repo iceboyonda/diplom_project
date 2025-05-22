@@ -44,14 +44,21 @@
 
 <style>
 .tyre-card {
-    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 1.5rem;
     background: var(--card-bg) !important;
     color: var(--text-color) !important;
+    box-shadow: 0 2px 16px rgba(57, 115, 247, 0.08);
+    z-index: 1;
+    overflow: hidden;
+}
+.tyre-card::before {
+    display: none !important;
 }
 
 .tyre-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3) !important;
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 0.5rem 1.5rem rgba(57, 115, 247, 0.18) !important;
 }
 
 .card-img-wrapper {

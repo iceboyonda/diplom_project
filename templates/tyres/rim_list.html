@@ -149,5 +149,26 @@
     .catalogue-title {
         margin-bottom: 0;
     }
+    .filter-block {
+        position: relative;
+        border-radius: 1.5rem !important;
+        background: var(--card-bg) !important;
+        z-index: 1;
+        overflow: hidden;
+        box-shadow: 0 2px 16px rgba(57, 115, 247, 0.08);
+    }
+    .filter-block::before {
+        content: "";
+        position: absolute;
+        top: -3px; left: -3px; right: -3px; bottom: -3px;
+        border-radius: 1.6rem;
+        background: linear-gradient(135deg, #00c3ff, #3973f7, #8e44ad, #ffb347);
+        z-index: -1;
+        pointer-events: none;
+    }
+    body.dark-theme .filter-block::before {
+        background: linear-gradient(135deg, #00eaff, #3973f7, #8e44ad, #ff6ec4);
+        box-shadow: 0 0 12px 2px #00c3ff55;
+    }
 </style>
 {% endblock %} 

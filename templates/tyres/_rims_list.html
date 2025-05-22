@@ -38,6 +38,7 @@
   <div class="col">
     {# Возвращаем HTML карточки диска #}
     <div class="card tyre-card h-100 shadow-sm rounded">
+      <div class="card-inner">
         {% if rim.image %}
             <div class="card-img-wrapper">
                 <img src="{{ rim.image.url }}" class="card-img-top" alt="{{ rim.brand }} {{ rim.name }} фото">
@@ -76,6 +77,7 @@
                 <i class="fas fa-info-circle"></i> Подробнее
             </a>
         </div>
+      </div>
     </div>
     {# Конец HTML карточки диска #}
 
@@ -97,14 +99,16 @@
 
 <style>
 .tyre-card {
-    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 1.5rem;
     background: var(--card-bg) !important;
     color: var(--text-color) !important;
+    box-shadow: 0 2px 16px rgba(57, 115, 247, 0.08);
+    z-index: 1;
+    overflow: hidden;
 }
-
-.tyre-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3) !important;
+.tyre-card::before {
+    display: none !important;
 }
 
 .card-img-wrapper {

@@ -5,7 +5,7 @@ from .models import TyreModel, TyreVariant, Favourite, RimModel, RimVariant, Fav
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from urllib.parse import urlencode
-from .forms import TyreModelForm, TyreVariantFormSet
+from .forms import TyreModelForm, TyreVariantFormSet, RimModelForm, RimVariantFormSet
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 
@@ -220,12 +220,14 @@ def admin_tyres(request):
 def admin_tyre_add(request):
     if request.method == 'POST':
         form = TyreModelForm(request.POST, request.FILES)
-        formset = TyreVariantFormSet(request.POST)
-        if form.is_valid() and formset.is_valid():
+        if form.is_valid():
             tyre = form.save()
-            formset.instance = tyre
-            formset.save()
-            return redirect('tyres:admin_tyres')
+            formset = TyreVariantFormSet(request.POST, instance=tyre)
+            if formset.is_valid():
+                formset.save()
+                return redirect('tyres:admin_tyres')
+        else:
+            formset = TyreVariantFormSet(request.POST)
     else:
         form = TyreModelForm()
         formset = TyreVariantFormSet()
@@ -272,6 +274,23 @@ def rim_list(request):
     rims = RimModel.objects.prefetch_related('variants').all()
     print(f"[DEBUG] rim_list: Начальный queryset (все диски): {rims.count()} шт.")
 
+    # Очищаем списки от пустых значений
+    diameters = [
+        float(d.replace(',', '.'))
+        for d in diameters
+        if d and d.replace(',', '.').replace('.', '', 1).isdigit()
+    ]
+    # Очистка и преобразование ширин
+    widths = [
+        float(w.replace(',', '.'))
+        for w in widths
+        if w and w.replace(',', '.').replace('.', '', 1).isdigit()
+    ]
+    # Очищаем списки от пустых значений
+    bolt_patterns = [b for b in bolt_patterns if b]
+    materials = [m for m in [material] if m] if material else []
+    colors = [c for c in [color] if c] if color else []
+
     # Фильтрация
     if diameters:
         rims = rims.filter(variants__diameter__in=diameters)
@@ -292,12 +311,12 @@ def rim_list(request):
     if brand:
         rims = rims.filter(brand=brand)
         print(f"[DEBUG] rim_list: После фильтрации по бренду ({brand}): {rims.count()} шт.")
-    if material:
-        rims = rims.filter(variants__material=material)
-        print(f"[DEBUG] rim_list: После фильтрации по материалу ({material}): {rims.count()} шт.")
-    if color:
-        rims = rims.filter(variants__color=color)
-        print(f"[DEBUG] rim_list: После фильтрации по цвету ({color}): {rims.count()} шт.")
+    if materials:
+        rims = rims.filter(variants__material__in=materials)
+        print(f"[DEBUG] rim_list: После фильтрации по материалу ({materials}): {rims.count()} шт.")
+    if colors:
+        rims = rims.filter(variants__color__in=colors)
+        print(f"[DEBUG] rim_list: После фильтрации по цвету ({colors}): {rims.count()} шт.")
 
     # Поиск
     if query:
@@ -324,8 +343,8 @@ def rim_list(request):
     available_bolt_patterns = sorted(list(set(RimVariant.objects.values_list('bolt_pattern', flat=True).exclude(bolt_pattern=''))))
 
     # Сохраняем выбранные фильтры для формы
-    selected_diameters = diameters
-    selected_widths = widths
+    selected_diameters = [str(d) for d in diameters]
+    selected_widths = [str(w) for w in widths]
     selected_bolt_patterns = bolt_patterns
     selected_min_price = min_price
     selected_max_price = max_price
@@ -366,6 +385,12 @@ def rim_list(request):
     print(f"[DEBUG] rim_list: Сформирован query_string: '{query_string}'")
     print(f"[DEBUG] rim_list: Количество дисков на текущей странице ({page_obj.number}): {len(page_obj.object_list)} шт.")
 
+    # Добавляем избранные диски пользователя
+    favourite_rim_ids = []
+    if request.user.is_authenticated:
+        favourite_rim_ids = list(request.user.favourite_rims.values_list('rim_variant_id', flat=True))
+    context['favourite_rim_ids'] = favourite_rim_ids
+
     # Если HTMX-запрос — возвращаем только partial
     if request.headers.get('HX-Request') == 'true':
         return render(request, 'tyres/_rims_list.html', context)
@@ -398,7 +423,7 @@ def rim_detail(request, rim_id):
         'dias': dias,
         'colors': colors,
         'materials': materials,
-        'favourite_rim_variant_ids': favourite_rim_variant_ids,
+        'favourite_rim_ids': favourite_rim_variant_ids,
     }
     return render(request, 'tyres/rim_detail.html', context)
 
@@ -424,20 +449,49 @@ def remove_favourite_rim(request, variant_id):
 
 @user_passes_test(lambda u: u.is_staff)
 def admin_rims(request):
-    # Здесь будет логика для администрирования дисков
-    pass
+    rims = RimModel.objects.prefetch_related('variants').all()
+    return render(request, 'tyres/admin_rims.html', {'rims': rims})
 
 @user_passes_test(lambda u: u.is_staff)
 def admin_rim_add(request):
-    # Здесь будет логика для добавления диска
-    pass
+    if request.method == 'POST':
+        form = RimModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            rim = form.save()
+            formset = RimVariantFormSet(request.POST, instance=rim)
+            if formset.is_valid():
+                formset.save()
+                return redirect('tyres:admin_rims')
+        else:
+            formset = RimVariantFormSet(request.POST)
+    else:
+        form = RimModelForm()
+        formset = RimVariantFormSet()
+    context = {'form': form, 'formset': formset}
+    return render(request, 'tyres/admin_rim_add.html', context)
 
 @user_passes_test(lambda u: u.is_staff)
 def admin_rim_edit(request, rim_id):
-    # Здесь будет логика для редактирования диска
-    pass
+    rim = get_object_or_404(RimModel, id=rim_id)
+    if request.method == 'POST':
+        form = RimModelForm(request.POST, request.FILES, instance=rim)
+        if form.is_valid():
+            rim = form.save()
+            formset = RimVariantFormSet(request.POST, instance=rim)
+            if formset.is_valid():
+                formset.save()
+                return redirect('tyres:admin_rims')
+        else:
+            formset = RimVariantFormSet(request.POST, instance=rim)
+    else:
+        form = RimModelForm(instance=rim)
+        formset = RimVariantFormSet(instance=rim)
+    return render(request, 'tyres/admin_rim_edit.html', {'form': form, 'formset': formset, 'rim': rim})
 
 @user_passes_test(lambda u: u.is_staff)
 def admin_rim_delete(request, rim_id):
-    # Здесь будет логика для удаления диска
-    pass
+    rim = get_object_or_404(RimModel, id=rim_id)
+    if request.method == 'POST':
+        rim.delete()
+        return redirect('tyres:admin_rims')
+    return render(request, 'tyres/admin_rim_delete.html', {'rim': rim})

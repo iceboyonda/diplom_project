@@ -40,21 +40,13 @@
                         
                         {% if user.is_authenticated %}
                             {% if variant.id in favourite_rim_ids %}
-                                <form action="{% url 'tyres:remove_favourite_rim' variant.id %}" method="post"
-                                      hx-post="{% url 'tyres:remove_favourite_rim' variant.id %}" 
-                                      hx-target="closest tr" 
-                                      hx-swap="outerHTML">
+                                <form action="{% url 'tyres:remove_favourite_rim' variant.id %}" method="post" class="mt-2">
                                     {% csrf_token %}
-                                    <input type="hidden" name="variant_id" value="{{ variant.id }}">
                                     <button type="submit" class="btn btn-danger btn-sm w-100">Убрать из избранного</button>
                                 </form>
                             {% else %}
-                                <form action="{% url 'tyres:add_favourite_rim' variant.id %}" method="post"
-                                      hx-post="{% url 'tyres:add_favourite_rim' variant.id %}"
-                                      hx-target="closest tr"
-                                      hx-swap="outerHTML">
+                                <form action="{% url 'tyres:add_favourite_rim' variant.id %}" method="post" class="mt-2">
                                     {% csrf_token %}
-                                    <input type="hidden" name="variant_id" value="{{ variant.id }}">
                                     <button type="submit" class="btn btn-outline-danger btn-sm w-100">❤ В избранное</button>
                                 </form>
                             {% endif %}

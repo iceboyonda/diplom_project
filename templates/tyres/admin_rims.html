@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Админ — Диски{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Товары (диски)</h2>
+        <a href="{% url 'tyres:admin_rim_add' %}" class="btn btn-success">+ Добавить диск</a>
+    </div>
+    <div class="card shadow bg-dark text-light">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Бренд</th>
+                            <th>Название</th>
+                            <th>Диаметры</th>
+                            <th>Мин. цена</th>
+                            <th>Кол-во вариантов</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rim in rims %}
+                        <tr>
+                            <td>{{ rim.id }}</td>
+                            <td>{{ rim.brand }}</td>
+                            <td>{{ rim.name }}</td>
+                            <td>{{ rim.diameter_display|default:'—' }}</td>
+                            <td>{% if rim.min_price %}{{ rim.min_price }} ₽{% else %}—{% endif %}</td>
+                            <td>{{ rim.variants.count }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'tyres:admin_rim_edit' rim.id %}" class="btn btn-sm btn-primary">Редактировать</a>
+                                <a href="{% url 'tyres:admin_rim_delete' rim.id %}" class="btn btn-sm btn-danger">Удалить</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="7" class="text-center text-secondary">Дисков пока нет</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

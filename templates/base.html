@@ -203,13 +203,17 @@
             height: 220px;
             object-fit: cover;
             width: 100%;
+            border-radius: 12px 12px 0 0;
         }
         .card {
-            min-height: 420px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            border-radius: 12px;
+            background: #23262F !important;
+            overflow: hidden;
+        }
+        .card::before {
+            display: none !important;
         }
         .card-body {
             flex: 1 1 auto;
@@ -227,6 +231,7 @@
         }
         .card-img-top {
             height: 180px;
+            border-radius: 12px 12px 0 0;
         }
         input::placeholder, .form-control::placeholder {
             color: #888 !important;
@@ -236,9 +241,61 @@
             color: #ccc !important;
             opacity: 1;
         }
-        .card, .filter-block {
-            background: var(--card-bg) !important;
-            color: var(--text-color) !important;
+        /* Оставляем псевдоэлемент только для фильтра */
+        .filter-block {
+            position: relative;
+            border-radius: 12px;
+            background: #23262F;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .filter-block::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #3973f7, #8e44ad);
+            z-index: -1;
+            pointer-events: none;
+            padding: 0;
+            -webkit-mask:
+              linear-gradient(#fff 0 0) content-box, 
+              linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            mask:
+              linear-gradient(#fff 0 0) content-box, 
+              linear-gradient(#fff 0 0);
+            opacity: 1;
+        }
+        .card::before, .filter-block::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #3973f7, #8e44ad);
+            z-index: -1;
+            pointer-events: none;
+            padding: 0;
+            -webkit-mask:
+              linear-gradient(#fff 0 0) content-box, 
+              linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            mask:
+              linear-gradient(#fff 0 0) content-box, 
+              linear-gradient(#fff 0 0);
+            opacity: 1;
+        }
+        .card:hover::before {
+            opacity: 1;
+        }
+        .filter-block::before {
+            opacity: 1;
+        }
+        body.dark-theme .card, body.dark-theme .filter-block {
+            background: #23262F !important;
+            color: #F1F1F1 !important;
         }
         /* Общая стилизация кнопок с градиентом для светлой темы */
         .btn-primary {
@@ -282,56 +339,47 @@
         }
         /* Улучшаем тени и переходы */
         .card, .filter-block {
-            border-radius: 8px; /* Скругляем углы карточек */
-            box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px; /* Более мягкая тень */
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Анимация при наведении */
+            position: relative;
+            border-radius: 12px;
+            background: #23262F;
+            z-index: 1;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
-
         .card:hover, .filter-block:hover {
-            transform: translateY(-5px); /* Приподнимаем при наведении */
-            box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 24px; /* Усиленная тень при наведении */
+            transform: translateY(-5px);
+            box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 24px;
         }
-
         body.dark-theme .card, body.dark-theme .filter-block {
-             box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px; /* Более выраженная тень в темной теме */
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
         }
-         body.dark-theme .card:hover, body.dark-theme .filter-block:hover {
-             box-shadow: rgba(0, 0, 0, 0.5) 0px 8px 24px; /* Усиленная тень при наведении в темной теме */
-         }
-
+        body.dark-theme .card:hover, body.dark-theme .filter-block:hover {
+            box-shadow: rgba(0, 0, 0, 0.5) 0px 8px 24px;
+        }
         .form-control, .form-select, .btn {
-             border-radius: 8px; /* Скругляем углы у полей ввода и кнопок */
+            border-radius: 8px;
         }
-
         .navbar {
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px; /* Тень для шапки */
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
         }
-
         body.dark-theme .navbar {
-             box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 8px; /* Более выраженная тень в темной теме */
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 8px;
         }
-
         .footer {
-             /* Удаляем тень сверху футера */
-             /* box-shadow: rgba(0, 0, 0, 0.1) 0px -2px 8px; */
+            border-top: none !important;
+            box-shadow: none !important;
         }
-
         body.dark-theme .footer {
-             /* Удаляем тень сверху футера в темной теме */
-             /* box-shadow: rgba(0, 0, 0, 0.4) 0px -2px 8px; */
-             border-top: none !important; /* Убираем верхнюю границу */
-             box-shadow: none !important; /* Убираем все тени на всякий случай */
+            border-top: none !important;
+            box-shadow: none !important;
         }
-
-        /* Плавные переходы для ссылок и других интерактивных элементов */
         a {
-             transition: color 0.3s ease;
+            transition: color 0.3s ease;
         }
-
         a:hover {
-             opacity: 0.8; /* Небольшое затемнение при наведении */
+            opacity: 0.8;
         }
-
         /* Анимированный фон с градиентными частицами */
         .particles {
             position: fixed;
@@ -342,7 +390,6 @@
             z-index: -1;
             pointer-events: none;
         }
-        
         /* Улучшенные карточки товаров */
         .card {
             transition: all 0.3s ease;
@@ -350,40 +397,33 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
-        
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
-        
         .card-img-top {
             transition: transform 0.5s ease;
         }
-        
         .card:hover .card-img-top {
             transform: scale(1.05);
         }
-        
         /* Улучшенное навигационное меню */
         .navbar {
             backdrop-filter: blur(10px);
             background: rgba(30, 58, 138, 0.95) !important;
-            padding-top: 1rem; /* Увеличиваем верхний padding */
-            padding-bottom: 1rem; /* Увеличиваем нижний padding */
-            box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px; /* Усиливаем тень */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px;
         }
-        
         .navbar-brand {
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-        
         .nav-link {
             position: relative;
             padding: 0.5rem 1rem;
             transition: color 0.3s ease;
         }
-        
         .nav-link::after {
             content: '';
             position: absolute;
@@ -395,18 +435,15 @@
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
-        
         .nav-link:hover::after {
             width: 100%;
         }
-        
         /* Плавные анимации для кнопок */
         .btn {
             position: relative;
             overflow: hidden;
             z-index: 1;
         }
-        
         .btn::before {
             content: '';
             position: absolute;
@@ -418,37 +455,30 @@
             transition: all 0.5s ease;
             z-index: -1;
         }
-        
         .btn:hover::before {
             left: 100%;
         }
-        
         /* Анимация для иконок в футере */
         .footer-icon {
             transition: transform 0.3s ease;
         }
-        
         .footer-icon:hover {
             transform: translateY(-3px);
         }
-        
         /* Улучшенные формы */
         .form-control {
             transition: all 0.3s ease;
             border: 2px solid transparent;
             background: rgba(255, 255, 255, 0.1);
         }
-        
         .form-control:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.25);
         }
-        
         /* Анимация для уведомлений */
         .alert {
             animation: slideIn 0.5s ease;
         }
-        
         @keyframes slideIn {
             from {
                 transform: translateY(-100%);
@@ -459,7 +489,6 @@
                 opacity: 1;
             }
         }
-        
         /* Адаптивные улучшения */
         @media (max-width: 768px) {
             .navbar {
@@ -482,7 +511,6 @@
                 text-align: center;
             }
         }
-        
         /* Стили для заголовков каталога */
         .catalog-title {
             margin-top: -1rem;
@@ -490,33 +518,26 @@
             font-weight: 600;
             color: var(--text-color);
         }
-        
         /* Стили для контейнера с фильтрами */
         .filter-container {
             margin-bottom: 2rem;
         }
-        
         /* Выравнивание высоты карточек с фильтрами */
         .filter-block {
             min-height: 420px;
             display: flex;
             flex-direction: column;
         }
-        
-        /* Стили для баннера */
-        /* Удаляем стили для баннера */
-        
         /* Стили для преимуществ */
         .features-section {
             padding: 3rem 0;
-            background: linear-gradient(135deg, var(--primary-color), #7d3c98); /* Применяем градиент баннера */
-            color: white; /* Меняем цвет текста на белый для контраста */
+            background: linear-gradient(135deg, var(--primary-color), #7d3c98);
+            color: white;
             border-radius: 12px;
             margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
         }
-        
         .features-section::before {
             content: '';
             position: absolute;
@@ -527,28 +548,23 @@
             background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="rgba(255,255,255,0.1)"/></svg>');
             opacity: 0.1;
         }
-        
         .feature-item {
             text-align: center;
             padding: 1.5rem;
             transition: transform 0.3s ease;
         }
-        
         .feature-item:hover {
             transform: translateY(-5px);
         }
-        
         .feature-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            color: rgba(255,255,255,0.8); /* Меняем цвет иконок на более светлый */
+            color: rgba(255,255,255,0.8);
         }
-        
         /* Стили для популярных категорий */
         .categories-section {
             margin-bottom: 2rem;
         }
-        
         .category-card {
             position: relative;
             height: 200px;
@@ -558,43 +574,36 @@
             transition: all 0.3s ease;
             cursor: pointer;
         }
-        
         /* Добавляем стили для кастомной карточки категории */
         .category-card-custom {
-            background: linear-gradient(45deg, var(--primary-color), #7d3c98); /* Градиентный фон */
-            color: white; /* Белый текст */
-            display: flex; /* Используем flexbox для центрирования содержимого */
-            justify-content: center; /* Центрируем по горизонтали */
-            align-items: center; /* Центрируем по вертикали */
-            text-align: center; /* Центрируем текст */
+            background: linear-gradient(45deg, var(--primary-color), #7d3c98);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        
         .category-card-custom:hover {
-            transform: translateY(-5px); /* Эффект поднятия */
+            transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
-        
         .category-card-custom .category-overlay {
-             background: none; /* Убираем оверлей с градиентом изображения */
+            background: none;
         }
-        
         .category-card-custom .category-title {
-            font-size: 1.8rem; /* Увеличиваем размер шрифта */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Добавляем тень к тексту */
+            font-size: 1.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
-        
         .category-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        
         .category-card:hover img {
             transform: scale(1.1);
         }
-        
         .category-overlay {
             position: absolute;
             top: 0;
@@ -607,26 +616,22 @@
             padding: 1.5rem;
             color: white;
         }
-        
         .category-title {
             font-size: 1.5rem;
             font-weight: 600;
             margin: 0;
         }
-        
         /* Улучшенный футер */
         .footer {
             background: linear-gradient(135deg, var(--primary-color), #7d3c98);
             padding: 4rem 0 2rem;
         }
-        
         .footer h5 {
             font-weight: 600;
             margin-bottom: 1.5rem;
             position: relative;
             padding-bottom: 0.5rem;
         }
-        
         .footer h5::after {
             content: '';
             position: absolute;
@@ -636,27 +641,22 @@
             height: 2px;
             background: rgba(255,255,255,0.3);
         }
-        
         .footer-links {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        
         .footer-links li {
             margin-bottom: 0.75rem;
         }
-        
         .footer-links a {
             color: rgba(255,255,255,0.8);
             text-decoration: none;
             transition: color 0.3s ease;
         }
-        
         .footer-links a:hover {
             color: white;
         }
-        
         .social-links a {
             display: inline-block;
             width: 40px;
@@ -668,13 +668,11 @@
             margin-right: 0.5rem;
             transition: all 0.3s ease;
         }
-        
         .social-links a:hover {
             background: white;
             color: var(--primary-color) !important;
             transform: translateY(-3px);
         }
-
         /* Градиент для всех кнопок */
         .btn, .btn-primary, .btn-secondary, .btn-outline-primary, .btn-outline-secondary {
             background: linear-gradient(90deg, #3973f7, #8e44ad);
@@ -691,6 +689,63 @@
         .btn:active, .btn-primary:active, .btn-secondary:active, .btn-outline-primary:active, .btn-outline-secondary:active {
             background: linear-gradient(90deg, #3973f7, #8e44ad);
             color: #fff !important;
+        }
+        .card, .filter-block, .card-inner, .card-img-top {
+            border-radius: 12px;
+        }
+        .card {
+            position: relative;
+            background: transparent;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .card-inner {
+            position: relative;
+            z-index: 1;
+            background: var(--card-bg);
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            padding: 0;
+        }
+        .card::before {
+            display: none !important;
+        }
+        /* Для фильтрации — обычный фон, без градиента и рамки */
+        .filter-block {
+            position: relative;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            z-index: 1;
+            overflow: hidden;
+        }
+        .filter-block::before {
+            display: none !important;
+        }
+        /* Стили для .card и .card-body — корректная смена цвета */
+        .card, .card-body {
+            background: var(--card-bg) !important;
+            color: var(--text-color) !important;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+
+        body.dark-theme .card, body.dark-theme .card-body {
+            background: var(--card-bg) !important;
+            color: var(--text-color) !important;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: none;
+        }
+
+        body:not(.dark-theme) .card, body:not(.dark-theme) .card-body {
+            background: #fff !important;
+            color: #212529 !important;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: none;
         }
     </style>
     {% block extra_css %}{% endblock %}
@@ -719,7 +774,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'tyres:rim_list' %}">
                             <span class="d-flex align-items-center">
-                                <i class="fas fa-cog" style="font-size: 1.2rem; margin-right: 0.5rem;"></i>
                                 <span>Диски</span>
                             </span>
                         </a>
